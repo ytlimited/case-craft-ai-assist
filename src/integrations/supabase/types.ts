@@ -9,7 +9,159 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      cases: {
+        Row: {
+          case_type: string
+          created_at: string
+          description: string
+          ethical_review_passed: boolean | null
+          generated_content: string | null
+          id: string
+          tier_used: Database["public"]["Enums"]["plan_type"]
+          title: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          case_type: string
+          created_at?: string
+          description: string
+          ethical_review_passed?: boolean | null
+          generated_content?: string | null
+          id?: string
+          tier_used: Database["public"]["Enums"]["plan_type"]
+          title: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          case_type?: string
+          created_at?: string
+          description?: string
+          ethical_review_passed?: boolean | null
+          generated_content?: string | null
+          id?: string
+          tier_used?: Database["public"]["Enums"]["plan_type"]
+          title?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      referrals: {
+        Row: {
+          bonus_cases_given: number | null
+          created_at: string
+          id: string
+          referral_code: string
+          referred_user_id: string | null
+          referrer_user_id: string | null
+        }
+        Insert: {
+          bonus_cases_given?: number | null
+          created_at?: string
+          id?: string
+          referral_code: string
+          referred_user_id?: string | null
+          referrer_user_id?: string | null
+        }
+        Update: {
+          bonus_cases_given?: number | null
+          created_at?: string
+          id?: string
+          referral_code?: string
+          referred_user_id?: string | null
+          referrer_user_id?: string | null
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          cases_remaining: number
+          created_at: string
+          expiry_date: string | null
+          id: string
+          plan: Database["public"]["Enums"]["plan_type"]
+          status: Database["public"]["Enums"]["subscription_status"]
+          subscription_date: string | null
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          cases_remaining?: number
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_type"]
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_date?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          cases_remaining?: number
+          created_at?: string
+          expiry_date?: string | null
+          id?: string
+          plan?: Database["public"]["Enums"]["plan_type"]
+          status?: Database["public"]["Enums"]["subscription_status"]
+          subscription_date?: string | null
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +170,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      plan_type: "free" | "basic" | "premium"
+      subscription_status: "active" | "expired" | "pending"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +286,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      plan_type: ["free", "basic", "premium"],
+      subscription_status: ["active", "expired", "pending"],
+    },
   },
 } as const

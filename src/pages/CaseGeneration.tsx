@@ -1,0 +1,353 @@
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Scale, AlertTriangle, Shield, CheckCircle } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
+
+const CASE_TYPES = [
+  'Civil Litigation',
+  'Criminal Defense',
+  'Corporate Law',
+  'Family Law',
+  'Immigration Law',
+  'Employment Law',
+  'Real Estate Law',
+  'Intellectual Property',
+  'Contract Dispute',
+  'Personal Injury',
+];
+
+const ETHICAL_KEYWORDS = [
+  'murder', 'terrorism', 'fraud', 'money laundering', 'drug trafficking',
+  'human trafficking', 'child abuse', 'domestic violence', 'extortion',
+  'blackmail', 'kidnapping', 'assault', 'theft', 'burglary', 'robbery'
+];
+
+const CaseGeneration = () => {
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [casesRemaining, setCasesRemaining] = useState(0);
+  const [userPlan, setUserPlan] = useState('free');
+  const [ethicalCheckPassed, setEthicalCheckPassed] = useState(false);
+
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    caseType: '',
+    additionalDetails: '',
+  });
+
+  useEffect(() => {
+    fetchUserSubscription();
+  }, [user]);
+
+  const fetchUserSubscription = async () => {
+    if (!user) return;
+
+    try {
+      const { data: subscription } = await supabase
+        .from('subscriptions')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (subscription) {
+        setCasesRemaining(subscription.cases_remaining);
+        setUserPlan(subscription.plan);
+      }
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+    }
+  };
+
+  const performEthicalCheck = (text: string): boolean => {
+    const lowerText = text.toLowerCase();
+    return !ETHICAL_KEYWORDS.some(keyword => lowerText.includes(keyword));
+  };
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Perform real-time ethical check
+    const allText = Object.values({ ...formData, [field]: value }).join(' ');
+    setEthicalCheckPassed(performEthicalCheck(allText));
+  };
+
+  const generateCase = async () => {
+    if (!user) {
+      toast({
+        title: 'Authentication required',
+        description: 'Please sign in to generate cases',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (casesRemaining <= 0) {
+      toast({
+        title: 'No cases remaining',
+        description: 'Please upgrade your plan to generate more cases',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    if (!ethicalCheckPassed) {
+      toast({
+        title: 'Ethical Review Failed',
+        description: 'Your case description contains potentially problematic content. Please review and modify.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Simulate AI case generation
+      const generatedContent = `
+# Legal Case Analysis: ${formData.title}
+
+## Case Overview
+**Type:** ${formData.caseType}
+**Description:** ${formData.description}
+
+## Legal Framework
+Based on the provided information, this case falls under ${formData.caseType} jurisdiction. The relevant legal principles include:
+
+1. **Applicable Laws:** Relevant statutes and regulations
+2. **Precedent Cases:** Similar cases and their outcomes
+3. **Legal Strategy:** Recommended approach and arguments
+
+## Key Legal Points
+- **Plaintiff's Position:** Detailed analysis of claims
+- **Defendant's Position:** Potential defenses and counterarguments
+- **Evidence Requirements:** Documentation and proof needed
+- **Timeline:** Critical deadlines and procedural requirements
+
+## Recommended Actions
+1. Gather all relevant documentation
+2. Interview witnesses and key parties
+3. Research case law and precedents
+4. Prepare legal briefs and motions
+5. Consider settlement options
+
+## Risk Assessment
+- **Strengths:** Favorable aspects of the case
+- **Weaknesses:** Potential challenges and risks
+- **Probability of Success:** Estimated likelihood of favorable outcome
+
+## Additional Considerations
+${formData.additionalDetails || 'No additional details provided.'}
+
+---
+*This case analysis was generated by Wakeel.ai and should be reviewed by a qualified legal professional.*
+      `;
+
+      // Save case to database
+      const { error } = await supabase
+        .from('cases')
+        .insert({
+          user_id: user.id,
+          title: formData.title,
+          description: formData.description,
+          case_type: formData.caseType,
+          generated_content: generatedContent,
+          ethical_review_passed: ethicalCheckPassed,
+          tier_used: userPlan as 'free' | 'basic' | 'premium',
+        });
+
+      if (error) throw error;
+
+      // Decrease cases remaining
+      const { error: updateError } = await supabase
+        .from('subscriptions')
+        .update({ cases_remaining: casesRemaining - 1 })
+        .eq('user_id', user.id);
+
+      if (updateError) throw updateError;
+
+      toast({
+        title: 'Case Generated Successfully!',
+        description: 'Your legal case analysis has been created.',
+      });
+
+      navigate('/cases');
+    } catch (error) {
+      console.error('Error generating case:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to generate case. Please try again.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const isFormValid = formData.title && formData.description && formData.caseType && ethicalCheckPassed;
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <div className="text-center">
+        <Scale className="h-12 w-12 text-primary mx-auto mb-4" />
+        <h1 className="text-3xl font-bold text-foreground">Generate Legal Case</h1>
+        <p className="text-muted-foreground">
+          AI-powered legal case generation with ethical oversight
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <Card className="legal-card">
+            <CardHeader>
+              <CardTitle>Case Information</CardTitle>
+              <CardDescription>
+                Provide details about your legal case. All submissions are reviewed for ethical compliance.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="title">Case Title *</Label>
+                <Input
+                  id="title"
+                  placeholder="Enter a descriptive title for your case"
+                  value={formData.title}
+                  onChange={(e) => handleInputChange('title', e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="caseType">Case Type *</Label>
+                <Select onValueChange={(value) => handleInputChange('caseType', value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select case type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CASE_TYPES.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description">Case Description *</Label>
+                <Textarea
+                  id="description"
+                  placeholder="Provide a detailed description of your legal case..."
+                  rows={6}
+                  value={formData.description}
+                  onChange={(e) => handleInputChange('description', e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="additionalDetails">Additional Details</Label>
+                <Textarea
+                  id="additionalDetails"
+                  placeholder="Any additional information that might be relevant..."
+                  rows={4}
+                  value={formData.additionalDetails}
+                  onChange={(e) => handleInputChange('additionalDetails', e.target.value)}
+                />
+              </div>
+
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="ethical-confirmation"
+                  checked={ethicalCheckPassed}
+                  disabled
+                />
+                <Label htmlFor="ethical-confirmation" className="text-sm">
+                  Ethical review {ethicalCheckPassed ? 'passed' : 'pending'}
+                </Label>
+                {ethicalCheckPassed ? (
+                  <CheckCircle className="h-4 w-4 text-green-500" />
+                ) : (
+                  <AlertTriangle className="h-4 w-4 text-yellow-500" />
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="space-y-6">
+          <Card className="legal-card">
+            <CardHeader>
+              <CardTitle>Your Plan</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center space-y-2">
+                <div className="text-2xl font-bold text-primary">{casesRemaining}</div>
+                <p className="text-sm text-muted-foreground">Cases Remaining</p>
+                <div className="text-xs text-muted-foreground">
+                  Current Plan: {userPlan.toUpperCase()}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="legal-card border-yellow-200 bg-yellow-50">
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Shield className="h-5 w-5 text-yellow-600" />
+                <span>Ethical Guidelines</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-sm text-yellow-800 space-y-2">
+                <p>• Cases are reviewed for ethical compliance</p>
+                <p>• Criminal activity assistance is prohibited</p>
+                <p>• Generated content is for educational purposes</p>
+                <p>• Always consult with qualified legal professionals</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {!ethicalCheckPassed && (
+            <Alert className="border-red-200 bg-red-50">
+              <AlertTriangle className="h-4 w-4 text-red-600" />
+              <AlertDescription className="text-red-800">
+                Your case description contains potentially problematic content. Please review and modify before proceeding.
+              </AlertDescription>
+            </Alert>
+          )}
+
+          <Button
+            onClick={generateCase}
+            disabled={!isFormValid || loading || casesRemaining <= 0}
+            className="w-full legal-button-primary"
+          >
+            {loading ? 'Generating Case...' : 'Generate Legal Case'}
+          </Button>
+
+          {casesRemaining <= 0 && (
+            <Button
+              onClick={() => navigate('/pricing')}
+              variant="outline"
+              className="w-full"
+            >
+              Upgrade Plan
+            </Button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CaseGeneration;
