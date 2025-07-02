@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import CaseGeneration from "./pages/CaseGeneration";
+import Pricing from "./pages/Pricing";
+import Cases from "./pages/Cases";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/generate-case" element={<CaseGeneration />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/cases" element={<Cases />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
