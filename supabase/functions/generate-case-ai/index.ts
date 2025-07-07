@@ -43,6 +43,51 @@ serve(async (req) => {
 });
 
 async function generateSimpleResponse(prompt: string, caseData: any, apiKey: string) {
+  // Extract case details from description for Free/Basic users
+  const description = caseData.description || prompt;
+  
+  const systemPrompt = `You are a professional legal AI assistant specializing in case analysis. Analyze the following legal case and provide a comprehensive report.
+
+CASE DETAILS:
+${description}
+
+ANALYSIS REQUIREMENTS:
+Provide a detailed legal case analysis with the following structure:
+
+## CASE OVERVIEW
+- Brief summary of the case
+- Primary legal issues identified
+- Parties involved
+
+## LEGAL FRAMEWORK
+- Applicable laws and regulations
+- Relevant statutes and precedents
+- Jurisdiction considerations
+
+## KEY LEGAL POINTS
+- Strengths of the case
+- Potential weaknesses or challenges
+- Critical evidence requirements
+
+## RISK ASSESSMENT
+- Likelihood of success
+- Potential outcomes
+- Financial implications
+
+## RECOMMENDED ACTIONS
+- Immediate steps to take
+- Evidence to gather
+- Legal strategies to consider
+
+## TIMELINE & DEADLINES
+- Statute of limitations considerations
+- Key milestones and deadlines
+- Recommended timing for actions
+
+IMPORTANT: Keep analysis professional, balanced, and practical. Always recommend consulting with a qualified attorney for specific legal advice.
+
+Format your response clearly with proper headings and bullet points where appropriate.`;
+
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: {
@@ -51,29 +96,14 @@ async function generateSimpleResponse(prompt: string, caseData: any, apiKey: str
     body: JSON.stringify({
       contents: [{
         parts: [{
-          text: `As a legal AI assistant, generate a comprehensive legal case analysis based on the following information:
-          
-Title: ${caseData.title}
-Case Type: ${caseData.caseType}
-Description: ${caseData.description}
-Additional Details: ${caseData.additionalDetails || 'None'}
-
-Please provide a complete legal case analysis including:
-1. Case Overview
-2. Legal Framework and Applicable Laws
-3. Key Legal Points
-4. Risk Assessment
-5. Recommended Actions
-6. Timeline and Deadlines
-
-Format the response in markdown with clear sections and professional language.`
+          text: systemPrompt
         }]
       }],
       generationConfig: {
         temperature: 0.7,
         topK: 40,
         topP: 0.95,
-        maxOutputTokens: 2048,
+        maxOutputTokens: 3072,
       }
     }),
   });
@@ -94,21 +124,73 @@ async function generateInteractiveResponse(prompt: string, conversationHistory: 
     conversationText += `${msg.role}: ${msg.content}\n`;
   });
   
-  const systemPrompt = isFirstMessage 
-    ? `You are a professional legal AI assistant. The user has provided initial case information. Ask clarifying questions to gather more details and provide personalized legal guidance. Keep your responses professional but conversational.
+  // Check if user is trying to discuss a new case
+  const isNewCaseAttempt = prompt && (
+    prompt.toLowerCase().includes('new case') ||
+    prompt.toLowerCase().includes('different case') ||
+    prompt.toLowerCase().includes('another case') ||
+    (conversationHistory.length > 5 && prompt.length > 200 && !prompt.toLowerCase().includes('regarding') && !prompt.toLowerCase().includes('about this case'))
+  );
+  
+  if (isNewCaseAttempt && conversationHistory.length > 0) {
+    return {
+      content: `I notice you might be wanting to discuss a new legal case. To ensure I provide the best analysis, I can only handle one case per conversation session.
 
-Initial Case Information:
-Title: ${caseData.title}
-Case Type: ${caseData.caseType}
+If you'd like to analyze a different case, please start a new chat session. This helps me:
+- Focus on your specific case details
+- Maintain context and accuracy
+- Provide personalized legal guidance
+- Keep our conversation organized
+
+Would you like me to continue helping with your current case, or would you prefer to start fresh with a new case in a new session?`,
+      isComplete: false,
+      mode: 'premium',
+      needsMoreInfo: true
+    };
+  }
+  
+  const systemPrompt = isFirstMessage 
+    ? `You are an elite legal AI consultant providing premium interactive legal guidance. You specialize in in-depth case analysis through intelligent questioning and personalized advice.
+
+CASE INFORMATION:
+Title: ${caseData.title || 'Not specified'}
+Case Type: ${caseData.caseType || 'Not specified'}
 Description: ${caseData.description}
 
-Start by acknowledging their case and ask 2-3 relevant follow-up questions to better understand their situation.`
-    : `You are a professional legal AI assistant continuing a conversation about a legal case. Previous conversation:
+YOUR APPROACH:
+1. Acknowledge their case professionally
+2. Ask 2-3 targeted, intelligent questions to gather critical details
+3. Focus on the most important aspects that will impact their legal strategy
+4. Keep responses conversational but professional
+5. Build toward a comprehensive analysis
+
+Ask strategic questions about:
+- Timeline and deadlines
+- Evidence and documentation
+- Parties involved and their positions
+- Specific outcomes they're seeking
+- Budget and practical constraints
+- Previous legal actions taken
+
+Start with a warm acknowledgment and then ask your most important questions.`
+    : `You are an elite legal AI consultant continuing an interactive session. 
+
+PREVIOUS CONVERSATION:
 ${conversationText}
 
-User's new message: ${prompt}
+CURRENT USER MESSAGE: "${prompt}"
 
-Continue the conversation by either asking more clarifying questions or providing legal analysis if you have enough information.`;
+YOUR APPROACH:
+- If you have sufficient information, provide comprehensive legal analysis
+- If more details are needed, ask 1-2 focused follow-up questions
+- Always maintain context of the original case
+- Provide actionable, practical advice
+- Keep responses professional yet conversational
+- Focus on helping them achieve their goals
+
+IMPORTANT: Only discuss the original case. If they mention new cases, politely redirect them to start a new session.
+
+Continue the conversation naturally, building on what you already know.`;
 
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
     method: 'POST',
@@ -125,16 +207,25 @@ Continue the conversation by either asking more clarifying questions or providin
         temperature: 0.8,
         topK: 40,
         topP: 0.95,
-        maxOutputTokens: 1024,
+        maxOutputTokens: 1536,
       }
     }),
   });
 
   const data = await response.json();
+  const responseText = data.candidates[0].content.parts[0].text;
+  
+  // Determine if this is a complete analysis
+  const isComplete = responseText.toLowerCase().includes('comprehensive analysis') || 
+                    responseText.toLowerCase().includes('final recommendation') ||
+                    responseText.toLowerCase().includes('conclusion') ||
+                    responseText.toLowerCase().includes('in summary') ||
+                    (responseText.length > 1000 && conversationHistory.length > 4);
+  
   return {
-    content: data.candidates[0].content.parts[0].text,
-    isComplete: false,
+    content: responseText,
+    isComplete,
     mode: 'premium',
-    needsMoreInfo: !data.candidates[0].content.parts[0].text.toLowerCase().includes('final analysis') && !data.candidates[0].content.parts[0].text.toLowerCase().includes('conclusion')
+    needsMoreInfo: !isComplete
   };
 }

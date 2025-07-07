@@ -9,6 +9,71 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    /* Dark theme by default */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 217.2 32.6% 17.5%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 267 92% 65%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 267 92% 65%;
+
+    --radius: 0.5rem;
+    
+    /* Professional dark theme colors */
+    --glass-primary: 267 92% 65%;
+    --glass-secondary: 280 100% 70%;
+    --glass-accent: 320 85% 70%;
+    --glass-background: 222.2 84% 4.9%;
+    --glass-surface: 217.2 32.6% 17.5%;
+    
+    /* Dark gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(267, 92%, 65%) 0%, hsl(280, 100%, 70%) 50%, hsl(320, 85%, 70%) 100%);
+    --gradient-background: linear-gradient(135deg, hsl(222.2, 84%, 4.9%) 0%, hsl(217.2, 32.6%, 10%) 50%, hsl(215, 30%, 8%) 100%);
+    --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    
+    /* Shadows and effects */
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 40px rgba(123, 97, 255, 0.2);
+    --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.2);
+    --shadow-elegant: 0 15px 35px rgba(0, 0, 0, 0.25);
+    
+    /* Animation and transitions */
+    --transition-glass: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    --transition-smooth: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .light {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
 
@@ -37,83 +102,13 @@ All colors MUST be HSL.
     --input: 270 20% 95%;
     --ring: 267 92% 65%;
 
-    --radius: 1rem;
-    
-    /* Glassmorphism theme colors */
-    --glass-primary: 267 92% 65%;
-    --glass-secondary: 280 100% 70%;
-    --glass-accent: 320 85% 70%;
-    --glass-background: 267 50% 95%;
-    --glass-surface: 267 30% 98%;
-    
-    /* Advanced gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(267, 92%, 65%) 0%, hsl(280, 100%, 70%) 50%, hsl(320, 85%, 70%) 100%);
-    --gradient-background: linear-gradient(135deg, hsl(267, 50%, 95%) 0%, hsl(280, 40%, 96%) 50%, hsl(320, 35%, 97%) 100%);
-    --gradient-card: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%);
-    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.1) 100%);
-    
-    /* Shadows and effects */
-    --shadow-glass: 0 8px 32px rgba(123, 97, 255, 0.15);
-    --shadow-glow: 0 0 40px rgba(123, 97, 255, 0.3);
-    --shadow-card: 0 20px 40px rgba(123, 97, 255, 0.1);
-    --shadow-elegant: 0 15px 35px rgba(123, 97, 255, 0.2);
-    
-    /* Animation and transitions */
-    --transition-glass: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
@@ -127,20 +122,22 @@ All colors MUST be HSL.
     @apply bg-background text-foreground font-sans;
     font-family: 'Inter', sans-serif;
   }
+  
+  html {
+    color-scheme: dark;
+  }
 }
 
 @layer components {
-  /* Glassmorphism Components */
+  /* Professional Components */
   .glass-card {
-    background: var(--gradient-card);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: var(--shadow-glass);
-    transition: var(--transition-glass);
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-card);
+    transition: var(--transition-smooth);
   }
   
   .glass-card:hover {
-    transform: translateY(-4px);
     box-shadow: var(--shadow-elegant);
   }
   
@@ -150,33 +147,30 @@ All colors MUST be HSL.
   }
   
   .glass-button {
-    background: var(--gradient-glass);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: hsl(var(--primary));
-    font-weight: 600;
-    transition: var(--transition-glass);
+    background: hsl(var(--secondary));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--secondary-foreground));
+    font-weight: 500;
+    transition: var(--transition-smooth);
   }
   
   .glass-button:hover {
-    background: var(--gradient-primary);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow);
+    background: hsl(var(--muted));
+    transform: translateY(-1px);
   }
   
   .glass-button-primary {
     background: var(--gradient-primary);
     color: white;
     border: none;
-    font-weight: 600;
-    transition: var(--transition-glass);
+    font-weight: 500;
+    transition: var(--transition-smooth);
   }
   
   .glass-button-primary:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-glow);
-    opacity: 0.95;
+    opacity: 0.9;
   }
   
   .glass-navigation {

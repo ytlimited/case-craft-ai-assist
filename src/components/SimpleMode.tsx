@@ -96,65 +96,47 @@ const SimpleMode: React.FC<SimpleModeProps> = ({
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <Label htmlFor="title">Case Title *</Label>
-            <Input
-              id="title"
-              placeholder="Enter a descriptive title for your case"
-              value={formData.title}
-              onChange={(e) => handleInputChange('title', e.target.value)}
-              className="rounded-xl"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="caseType">Case Type *</Label>
-            <Select onValueChange={(value) => handleInputChange('caseType', value)}>
-              <SelectTrigger className="rounded-xl">
-                <SelectValue placeholder="Select case type" />
-              </SelectTrigger>
-              <SelectContent>
-                {caseTypes.map((type) => (
-                  <SelectItem key={type} value={type}>
-                    {type}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="description">Case Description *</Label>
+        <div className="space-y-4">
+          <Label htmlFor="description" className="text-lg font-medium">
+            Describe Your Legal Case *
+          </Label>
           <Textarea
             id="description"
-            placeholder="Provide a detailed description of your legal case..."
-            rows={6}
-            value={formData.description}
-            onChange={(e) => handleInputChange('description', e.target.value)}
-            className="rounded-xl"
-          />
-        </div>
+            placeholder={`Please provide complete details about your legal case including:
 
-        <div className="space-y-2">
-          <Label htmlFor="additionalDetails">Additional Details</Label>
-          <Textarea
-            id="additionalDetails"
-            placeholder="Any additional information that might be relevant..."
-            rows={4}
-            value={formData.additionalDetails}
-            onChange={(e) => handleInputChange('additionalDetails', e.target.value)}
-            className="rounded-xl"
+• Case Title/Subject
+• Type of case (e.g., Civil Litigation, Criminal Defense, Family Law, etc.)
+• Detailed description of the situation
+• Key facts and circumstances
+• Any relevant dates, parties involved
+• Additional details or concerns
+• What outcome you're seeking
+
+Example:
+"Employment Law - Wrongful Termination
+I was terminated from my position as Marketing Manager at XYZ Corp on January 15th, 2024. I believe this was due to my recent pregnancy announcement rather than performance issues. I had excellent reviews and recently received a promotion. The company cited 'restructuring' but hired a replacement within two weeks..."
+
+Be as detailed as possible for the best legal analysis.`}
+            rows={16}
+            value={formData.description}
+            onChange={(e) => {
+              handleInputChange('description', e.target.value);
+              // Auto-extract title and case type from description if possible
+              const lines = e.target.value.split('\n');
+              if (lines[0] && !formData.title) {
+                handleInputChange('title', lines[0].substring(0, 100));
+              }
+            }}
+            className="text-sm leading-relaxed"
           />
         </div>
 
         <Button
           onClick={onGenerate}
-          disabled={loading || !formData.title || !formData.description || !formData.caseType}
-          className="w-full glass-button-primary rounded-xl py-3"
+          disabled={loading || !formData.description.trim()}
+          className="w-full glass-button-primary py-3"
         >
-          {loading ? 'Generating Case Analysis...' : 'Generate Legal Case'}
+          {loading ? 'Generating Case Analysis...' : 'Generate Legal Case Analysis'}
         </Button>
       </CardContent>
     </Card>
