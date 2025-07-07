@@ -18,35 +18,41 @@ const Pricing = () => {
 
   const plans = [
     {
-      name: 'Free',
+      name: 'Free Trial',
       price: '$0',
-      period: 'forever',
-      description: 'Perfect for trying out our platform',
-      cases: '2 cases',
+      period: '7 days',
+      description: 'Simple Mode - One input, complete output',
+      cases: '3 cases',
+      mode: 'Simple Mode',
+      modeDescription: 'Single input box → Complete analysis output. Copy-only results.',
       features: [
-        '2 complimentary cases',
-        'Basic case generation',
+        '3 case generations',
+        'Basic legal analysis',
+        'Simple input interface',
+        'Copy results only',
         'Ethical oversight',
-        'Email support',
-        'Referral bonuses'
+        'Email support'
       ],
       icon: Zap,
-      color: 'from-blue-500 to-purple-600',
+      color: 'from-gray-500 to-gray-600',
       current: true
     },
     {
-      name: 'Basic',
+      name: 'Basic Plan',
       price: '$29',
       period: 'month',
-      description: 'Ideal for solo practitioners',
-      cases: '50 cases/month',
+      description: 'Enhanced Simple Mode with better quality',
+      cases: '30 cases/month',
+      mode: 'Enhanced Simple Mode',
+      modeDescription: 'Faster processing, better analysis quality. Copy-only results.',
       features: [
-        '50 cases per month',
-        'Advanced case generation',
+        '30 cases per month',
+        'Advanced legal analysis',
+        'Faster AI processing',
+        'Copy results only',
         'Priority ethical review',
-        'Email & chat support',
-        'Case templates',
-        'Download cases as PDF'
+        'Priority support',
+        'Case templates'
       ],
       icon: Crown,
       color: 'from-purple-500 to-pink-600',
@@ -56,20 +62,23 @@ const Pricing = () => {
       name: 'Premium',
       price: '$99',
       period: 'month',
-      description: 'Best for law firms and teams',
+      description: 'Interactive Chatbot Mode for personalized cases',
       cases: 'Unlimited cases',
+      mode: 'Interactive Chatbot Mode',
+      modeDescription: 'AI asks follow-up questions for personalized cases. Full editing capabilities.',
       features: [
         'Unlimited case generation',
         'Interactive AI consultation',
-        'Real-time case editing',
-        'Priority support',
-        'Advanced analytics',
-        'Team collaboration',
-        'Custom case templates',
-        'API access'
+        'AI asks follow-up questions',
+        'Edit & customize results',
+        'Add new information',
+        'Personalized legal advice',
+        '24/7 premium support',
+        'API access',
+        'Custom integrations'
       ],
       icon: Star,
-      color: 'from-pink-500 to-red-600',
+      color: 'from-amber-500 to-orange-600',
       enterprise: true
     }
   ];
@@ -127,6 +136,24 @@ const Pricing = () => {
                     <span className="text-4xl font-bold text-primary">{plan.price}</span>
                     <span className="text-foreground/60">/{plan.period}</span>
                   </div>
+                  
+                  <div className={`mb-4 p-3 rounded-lg border ${
+                    plan.name === 'Free Trial' ? 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800' :
+                    plan.name === 'Basic Plan' ? 'bg-purple-50 dark:bg-purple-900/20 border-purple-200 dark:border-purple-800' :
+                    'bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800'
+                  }`}>
+                    <h4 className={`font-semibold mb-1 ${
+                      plan.name === 'Free Trial' ? 'text-blue-800 dark:text-blue-200' :
+                      plan.name === 'Basic Plan' ? 'text-purple-800 dark:text-purple-200' :
+                      'text-amber-800 dark:text-amber-200'
+                    }`}>{plan.mode}</h4>
+                    <p className={`text-sm ${
+                      plan.name === 'Free Trial' ? 'text-blue-700 dark:text-blue-300' :
+                      plan.name === 'Basic Plan' ? 'text-purple-700 dark:text-purple-300' :
+                      'text-amber-700 dark:text-amber-300'
+                    }`}>{plan.modeDescription}</p>
+                  </div>
+                  
                   <CardDescription className="text-foreground/70 text-lg">
                     {plan.description}
                   </CardDescription>
