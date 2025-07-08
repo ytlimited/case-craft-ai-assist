@@ -20,12 +20,11 @@ const Header = () => {
   };
 
   return (
-    <header className="clean-navigation sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-6">
+    <header className="modern-navigation sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
-            <Scale className="h-7 w-7 text-primary" />
-            <span className="text-xl font-medium text-gray-800">
+          <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
+            <span className="text-2xl font-bold text-foreground modern-heading">
               Wakeel.ai
             </span>
           </div>
@@ -33,19 +32,19 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => navigate('/')}
-              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
+              className="text-muted-foreground hover:text-foreground transition-all duration-200 font-medium text-sm"
             >
               Home
             </button>
             <button
               onClick={() => navigate('/cases')}
-              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
+              className="text-muted-foreground hover:text-foreground transition-all duration-200 font-medium text-sm"
             >
               My Cases
             </button>
             <button
               onClick={() => navigate('/pricing')}
-              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
+              className="text-muted-foreground hover:text-foreground transition-all duration-200 font-medium text-sm"
             >
               Pricing
             </button>
@@ -72,8 +71,8 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button onClick={() => navigate('/auth')} className="clean-button-primary text-sm px-6 py-2">
-                Sign In
+              <Button onClick={() => navigate('/auth')} className="modern-button-primary">
+                Get Started
               </Button>
             )}
           </div>

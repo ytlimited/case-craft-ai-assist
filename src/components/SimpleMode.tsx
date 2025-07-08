@@ -46,18 +46,18 @@ const SimpleMode: React.FC<SimpleModeProps> = ({
 
   if (result) {
     return (
-      <Card className="clean-card">
+      <Card className="modern-card">
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle className="text-xl font-medium text-gray-800">
+              <CardTitle className="text-2xl font-semibold text-foreground modern-subheading">
                 Generated Case Analysis
               </CardTitle>
-              <CardDescription className="text-gray-600">Your legal case analysis is ready</CardDescription>
+              <CardDescription className="text-muted-foreground modern-text">Your legal case analysis is ready</CardDescription>
             </div>
             <Button
               onClick={copyToClipboard}
-              className="clean-button"
+              className="modern-button"
               size="sm"
             >
               <Copy className="h-4 w-4 mr-2" />
@@ -66,15 +66,15 @@ const SimpleMode: React.FC<SimpleModeProps> = ({
           </div>
         </CardHeader>
         <CardContent>
-          <div className="bg-muted/30 rounded-lg p-6 max-h-96 overflow-y-auto">
-            <pre className="whitespace-pre-wrap text-sm text-gray-700 font-mono leading-relaxed">
+          <div className="bg-muted/50 rounded-xl p-8 max-h-96 overflow-y-auto">
+            <pre className="whitespace-pre-wrap text-sm text-foreground font-mono leading-relaxed modern-text">
               {result}
             </pre>
           </div>
-          <div className="mt-6">
+          <div className="mt-8">
             <Button
               onClick={() => window.location.reload()}
-              className="clean-button-primary"
+              className="modern-button-primary"
             >
               <FileText className="h-4 w-4 mr-2" />
               Generate New Case
@@ -86,18 +86,18 @@ const SimpleMode: React.FC<SimpleModeProps> = ({
   }
 
   return (
-    <Card className="clean-card">
+    <Card className="modern-card">
       <CardHeader>
-        <CardTitle className="text-xl font-medium text-gray-800">
-          Simple Mode
+        <CardTitle className="text-2xl font-semibold text-foreground modern-subheading">
+          Legal Case Analysis
         </CardTitle>
-        <CardDescription className="text-gray-600">
-          Describe your legal case and get a complete analysis
+        <CardDescription className="text-muted-foreground modern-text">
+          Describe your legal case and get a comprehensive AI-powered analysis
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="space-y-3">
-          <Label htmlFor="description" className="text-sm font-medium text-gray-700">
+      <CardContent className="space-y-8">
+        <div className="space-y-4">
+          <Label htmlFor="description" className="text-base font-medium text-foreground modern-text">
             Describe Your Legal Case
           </Label>
           <Textarea
@@ -112,14 +112,14 @@ const SimpleMode: React.FC<SimpleModeProps> = ({
                 handleInputChange('title', lines[0].substring(0, 100));
               }
             }}
-            className="clean-textarea text-sm"
+            className="modern-textarea text-base"
           />
         </div>
 
         <Button
           onClick={onGenerate}
           disabled={loading || !formData.description.trim()}
-          className="w-full clean-button-primary py-3"
+          className="w-full modern-button-primary py-4 text-lg"
         >
           {loading ? 'Generating Case Analysis...' : 'Generate Legal Case Analysis'}
         </Button>

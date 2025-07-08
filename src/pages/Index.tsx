@@ -10,29 +10,27 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="clean-background">
+    <div className="modern-background">
       {/* Hero Section */}
-      <div className="clean-hero">
-        <div className="max-w-6xl mx-auto px-6 py-24">
+      <div className="modern-hero">
+        <div className="max-w-7xl mx-auto px-6 py-32">
           <div className="text-center">
-            <div className="mb-8">
-              <Scale className="h-16 w-16 text-primary mx-auto mb-6" />
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl font-light mb-6 text-gray-800">
-              Wakeel.ai
+            <h1 className="text-6xl md:text-7xl font-bold mb-8 text-white modern-heading">
+              The New Standard
+              <br />
+              for Legal AI
             </h1>
             
-            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto font-light">
+            <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto modern-text">
               AI-powered legal assistance platform with ethical oversight. 
-              Generate comprehensive legal cases with advanced AI.
+              Generate comprehensive legal cases with advanced AI technology.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               {user ? (
                 <Button 
                   onClick={() => navigate('/dashboard')}
-                  className="clean-button-primary text-base px-8 py-3"
+                  className="modern-button-primary text-lg px-12 py-4"
                 >
                   Go to Dashboard
                 </Button>
@@ -40,15 +38,15 @@ const Index = () => {
                 <>
                   <Button 
                     onClick={() => navigate('/auth')}
-                    className="clean-button-primary text-base px-8 py-3"
+                    className="modern-button-primary text-lg px-12 py-4"
                   >
-                    Get Started Free
+                    Get Started
                   </Button>
                   <Button 
                     onClick={() => navigate('/pricing')}
-                    className="clean-button text-base px-8 py-3"
+                    className="modern-button text-lg px-12 py-4 bg-white/10 text-white border-white/20 hover:bg-white/20"
                   >
-                    View Pricing
+                    Learn More
                   </Button>
                 </>
               )}
@@ -58,55 +56,57 @@ const Index = () => {
       </div>
 
       {/* Features Section */}
-      <div className="max-w-6xl mx-auto px-6 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-light mb-6 text-gray-800">
-            Why Choose Wakeel.ai?
+      <div className="max-w-7xl mx-auto px-6 py-24">
+        <div className="text-center mb-20">
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 text-foreground modern-heading">
+            A Purpose Built
+            <br />
+            Legal AI Platform
           </h2>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto font-light">
-            Professional legal assistance with AI-powered insights and ethical compliance
+          <p className="text-muted-foreground text-xl max-w-3xl mx-auto modern-text">
+            Built by legal professionals, for legal professionals. Experience the future of legal assistance with our advanced AI technology.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <Card className="clean-card p-8 text-center">
-            <CardHeader className="pb-4">
-              <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
-              <CardTitle className="text-xl font-medium text-gray-800">
+          <Card className="modern-card p-8">
+            <CardHeader className="pb-6">
+              <Shield className="h-16 w-16 text-primary mb-6" />
+              <CardTitle className="text-2xl font-semibold text-foreground modern-subheading">
                 Ethical AI
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-gray-600 font-light">
-                Built-in ethical review system prevents misuse and ensures responsible legal assistance
+              <CardDescription className="text-muted-foreground text-lg modern-text">
+                Built-in ethical review system prevents misuse and ensures responsible legal assistance with every generation.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="clean-card p-8 text-center">
-            <CardHeader className="pb-4">
-              <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
-              <CardTitle className="text-xl font-medium text-gray-800">
+          <Card className="modern-card p-8">
+            <CardHeader className="pb-6">
+              <Zap className="h-16 w-16 text-primary mb-6" />
+              <CardTitle className="text-2xl font-semibold text-foreground modern-subheading">
                 Advanced Analysis
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-gray-600 font-light">
-                Comprehensive legal case generation with precedent research and strategic recommendations
+              <CardDescription className="text-muted-foreground text-lg modern-text">
+                Comprehensive legal case generation with precedent research and strategic recommendations powered by cutting-edge AI.
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="clean-card p-8 text-center">
-            <CardHeader className="pb-4">
-              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-              <CardTitle className="text-xl font-medium text-gray-800">
+          <Card className="modern-card p-8">
+            <CardHeader className="pb-6">
+              <Users className="h-16 w-16 text-primary mb-6" />
+              <CardTitle className="text-2xl font-semibold text-foreground modern-subheading">
                 Referral Program
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-gray-600 font-light">
-                Earn free cases by referring colleagues. Get 2 cases per referral
+              <CardDescription className="text-muted-foreground text-lg modern-text">
+                Earn free cases by referring colleagues. Get 2 additional cases for every successful referral to our platform.
               </CardDescription>
             </CardContent>
           </Card>
@@ -114,19 +114,21 @@ const Index = () => {
       </div>
 
       {/* Call to Action Section */}
-      <div className="bg-muted/30">
-        <div className="max-w-4xl mx-auto px-6 py-20">
+      <div className="bg-foreground">
+        <div className="max-w-7xl mx-auto px-6 py-24">
           <div className="text-center">
-            <h3 className="text-3xl md:text-4xl font-light mb-6 text-gray-800">
-              Ready to Transform Your Legal Practice?
+            <h3 className="text-5xl md:text-6xl font-bold mb-8 text-white modern-heading">
+              A Modern Stack for
+              <br />
+              Modern Legal Firms
             </h3>
-            <p className="text-gray-600 text-lg mb-8 font-light max-w-2xl mx-auto">
-              Join thousands of legal professionals using AI-powered case generation
+            <p className="text-white/80 text-xl mb-12 max-w-3xl mx-auto modern-text">
+              Join thousands of legal professionals who are already transforming their practice with our AI-powered platform.
             </p>
             {!user && (
               <Button 
                 onClick={() => navigate('/auth')}
-                className="clean-button-primary text-base px-12 py-3"
+                className="modern-button-primary text-lg px-12 py-4"
               >
                 Start Your Free Trial
               </Button>
