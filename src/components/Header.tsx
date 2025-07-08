@@ -20,12 +20,12 @@ const Header = () => {
   };
 
   return (
-    <header className="glass-navigation sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <header className="clean-navigation sticky top-0 z-50">
+      <div className="max-w-6xl mx-auto px-6">
         <div className="flex justify-between items-center h-16">
-          <div className="flex items-center space-x-2 cursor-pointer transition-smooth hover:scale-105" onClick={() => navigate('/')}>
-            <Scale className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => navigate('/')}>
+            <Scale className="h-7 w-7 text-primary" />
+            <span className="text-xl font-medium text-gray-800">
               Wakeel.ai
             </span>
           </div>
@@ -33,19 +33,19 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <button
               onClick={() => navigate('/')}
-              className="text-foreground/80 hover:text-primary transition-smooth font-medium"
+              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
             >
               Home
             </button>
             <button
               onClick={() => navigate('/cases')}
-              className="text-foreground/80 hover:text-primary transition-smooth font-medium"
+              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
             >
               My Cases
             </button>
             <button
               onClick={() => navigate('/pricing')}
-              className="text-foreground/80 hover:text-primary transition-smooth font-medium"
+              className="text-gray-600 hover:text-primary transition-smooth font-medium text-sm"
             >
               Pricing
             </button>
@@ -72,7 +72,7 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button onClick={() => navigate('/auth')} className="legal-button-primary">
+              <Button onClick={() => navigate('/auth')} className="clean-button-primary text-sm px-6 py-2">
                 Sign In
               </Button>
             )}

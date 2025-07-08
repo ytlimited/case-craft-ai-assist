@@ -10,123 +10,103 @@ const Index = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="glass-background relative overflow-hidden">
-      {/* Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="glass-orb floating-element absolute -top-24 -left-24"></div>
-        <div className="glass-orb floating-element absolute top-1/2 -right-32"></div>
-        <div className="glass-orb floating-element absolute bottom-0 left-1/3"></div>
-      </div>
-
+    <div className="clean-background">
       {/* Hero Section */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16">
-        <div className="text-center">
-          <div className="relative inline-block mb-8">
-            <Scale className="h-20 w-20 text-primary mx-auto mb-6 floating-element" />
-            <div className="absolute inset-0 blur-xl bg-primary/30 rounded-full"></div>
-          </div>
-          
-          <h1 className="text-6xl md:text-7xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary via-purple-600 to-pink-500 bg-clip-text text-transparent">
+      <div className="clean-hero">
+        <div className="max-w-6xl mx-auto px-6 py-24">
+          <div className="text-center">
+            <div className="mb-8">
+              <Scale className="h-16 w-16 text-primary mx-auto mb-6" />
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-light mb-6 text-gray-800">
               Wakeel.ai
-            </span>
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-foreground/70 mb-12 max-w-4xl mx-auto leading-relaxed">
-            AI-powered legal assistance platform with <span className="text-primary font-semibold">ethical oversight</span>. 
-            Generate comprehensive legal cases with advanced AI while maintaining the 
-            <span className="text-primary font-semibold"> highest ethical standards</span>.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            {user ? (
-              <Button 
-                onClick={() => navigate('/dashboard')}
-                className="glass-button-primary text-lg px-8 py-4 rounded-2xl"
-              >
-                Go to Dashboard
-              </Button>
-            ) : (
-              <>
+            </h1>
+            
+            <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto font-light">
+              AI-powered legal assistance platform with ethical oversight. 
+              Generate comprehensive legal cases with advanced AI.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              {user ? (
                 <Button 
-                  onClick={() => navigate('/auth')}
-                  className="glass-button-primary text-lg px-8 py-4 rounded-2xl"
+                  onClick={() => navigate('/dashboard')}
+                  className="clean-button-primary text-base px-8 py-3"
                 >
-                  Get Started Free
+                  Go to Dashboard
                 </Button>
-                <Button 
-                  onClick={() => navigate('/pricing')}
-                  className="glass-button text-lg px-8 py-4 rounded-2xl"
-                >
-                  View Pricing
-                </Button>
-              </>
-            )}
+              ) : (
+                <>
+                  <Button 
+                    onClick={() => navigate('/auth')}
+                    className="clean-button-primary text-base px-8 py-3"
+                  >
+                    Get Started Free
+                  </Button>
+                  <Button 
+                    onClick={() => navigate('/pricing')}
+                    className="clean-button text-base px-8 py-3"
+                  >
+                    View Pricing
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Features Section */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
-              Why Choose Wakeel.ai?
-            </span>
+          <h2 className="text-3xl md:text-4xl font-light mb-6 text-gray-800">
+            Why Choose Wakeel.ai?
           </h2>
-          <p className="text-foreground/70 text-xl max-w-2xl mx-auto">
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto font-light">
             Professional legal assistance with AI-powered insights and ethical compliance
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <Card className="glass-card text-center border-0 rounded-3xl p-8">
-            <CardHeader>
-              <div className="relative inline-block mb-4">
-                <Shield className="h-16 w-16 text-primary mx-auto" />
-                <div className="absolute inset-0 blur-lg bg-primary/20 rounded-full"></div>
-              </div>
-              <CardTitle className="text-2xl mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <Card className="clean-card p-8 text-center">
+            <CardHeader className="pb-4">
+              <Shield className="h-12 w-12 text-primary mx-auto mb-4" />
+              <CardTitle className="text-xl font-medium text-gray-800">
                 Ethical AI
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-foreground/70 text-lg leading-relaxed">
-                Built-in ethical review system prevents misuse and ensures responsible legal assistance with every case generation
+              <CardDescription className="text-gray-600 font-light">
+                Built-in ethical review system prevents misuse and ensures responsible legal assistance
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="glass-card text-center border-0 rounded-3xl p-8">
-            <CardHeader>
-              <div className="relative inline-block mb-4">
-                <Zap className="h-16 w-16 text-primary mx-auto" />
-                <div className="absolute inset-0 blur-lg bg-primary/20 rounded-full"></div>
-              </div>
-              <CardTitle className="text-2xl mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <Card className="clean-card p-8 text-center">
+            <CardHeader className="pb-4">
+              <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
+              <CardTitle className="text-xl font-medium text-gray-800">
                 Advanced Analysis
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-foreground/70 text-lg leading-relaxed">
-                Comprehensive legal case generation with precedent research and strategic recommendations powered by cutting-edge AI
+              <CardDescription className="text-gray-600 font-light">
+                Comprehensive legal case generation with precedent research and strategic recommendations
               </CardDescription>
             </CardContent>
           </Card>
 
-          <Card className="glass-card text-center border-0 rounded-3xl p-8 md:col-span-2 lg:col-span-1">
-            <CardHeader>
-              <div className="relative inline-block mb-4">
-                <Users className="h-16 w-16 text-primary mx-auto" />
-                <div className="absolute inset-0 blur-lg bg-primary/20 rounded-full"></div>
-              </div>
-              <CardTitle className="text-2xl mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+          <Card className="clean-card p-8 text-center">
+            <CardHeader className="pb-4">
+              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+              <CardTitle className="text-xl font-medium text-gray-800">
                 Referral Program
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <CardDescription className="text-foreground/70 text-lg leading-relaxed">
-                Earn free cases by referring colleagues. Get 2 cases per referral, give 1 bonus case to your referrals
+              <CardDescription className="text-gray-600 font-light">
+                Earn free cases by referring colleagues. Get 2 cases per referral
               </CardDescription>
             </CardContent>
           </Card>
@@ -134,24 +114,24 @@ const Index = () => {
       </div>
 
       {/* Call to Action Section */}
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="glass-card rounded-3xl p-12 text-center border-0">
-          <h3 className="text-3xl md:text-4xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+      <div className="bg-muted/30">
+        <div className="max-w-4xl mx-auto px-6 py-20">
+          <div className="text-center">
+            <h3 className="text-3xl md:text-4xl font-light mb-6 text-gray-800">
               Ready to Transform Your Legal Practice?
-            </span>
-          </h3>
-          <p className="text-foreground/70 text-xl mb-8 leading-relaxed">
-            Join thousands of legal professionals using AI-powered case generation with ethical oversight
-          </p>
-          {!user && (
-            <Button 
-              onClick={() => navigate('/auth')}
-              className="glass-button-primary text-lg px-12 py-4 rounded-2xl"
-            >
-              Start Your Free Trial
-            </Button>
-          )}
+            </h3>
+            <p className="text-gray-600 text-lg mb-8 font-light max-w-2xl mx-auto">
+              Join thousands of legal professionals using AI-powered case generation
+            </p>
+            {!user && (
+              <Button 
+                onClick={() => navigate('/auth')}
+                className="clean-button-primary text-base px-12 py-3"
+              >
+                Start Your Free Trial
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>
